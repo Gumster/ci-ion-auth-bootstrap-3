@@ -1,0 +1,7 @@
+html { }
+body {font-family: Tahoma, Verdana, Swiss, sans-serif; color:#514B52; background:#FBFAF9}
+h1,h2,h3,h4,h5,h6, span.h1 {font-family: 'Quattrocento Sans', cursive; color: #816060;}
+#mast {}
+#main-container {}
+#login-name {cursor:help}
+#footer {background:#E0E5EC; border-top:1px solid #EAEEF2; color:#514B52; font-size: smaller;}

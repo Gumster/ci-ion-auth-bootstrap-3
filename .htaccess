@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+ 
+  # Reenable after getting ssl cert
+  # RewriteCond %{HTTPS} off
+  # RewriteRule ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+ 
+  # Removes access to the system folder by users
+  RewriteCond %{REQUEST_URI} ^system.*
+  RewriteRule ^(.*)$ /index.php?/$1 [L]
+ 
+  # When your application folder isn't in the system folder This snippet prevents user access to the application folder
+  RewriteCond %{REQUEST_URI} ^application.*
+  RewriteRule ^(.*)$ /index.php?/$1 [L]
+ 
+  # Checks to see if the user is attempting to access a valid file, such as an image or css document, if this isn't true it sends the request to index.php
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.php?/$1 [L]
+</IfModule>
+ 
+<IfModule !mod_rewrite.c>
+  # If we don't have mod_rewrite installed, all 404's can be sent to index.php, and everything works as normal.
+  ErrorDocument 404 /index.php
+</IfModule>
