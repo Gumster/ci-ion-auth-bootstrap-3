@@ -2,6 +2,8 @@
 /**
  * IonAuth MongoDB Model
  *
+ * Version: 2.5.2
+ *
  * A rewrite of IonAuth model to use MongoDB as database backend. It
  * requires both CodeIgniter MongoDB Active Record and CodeIgniter MongoDB Session
  * libraries installed.
@@ -1833,16 +1835,16 @@ class Ion_auth_mongodb_model extends CI_Model {
 			{
 				$this->set_error('group_already_exists');
 				return FALSE;
-			}	
+			}
 
-			$data['name'] = $group_name;		
+			$data['name'] = $group_name;
 		}
-		
+
 
 		// IMPORTANT!! Third parameter was string type $description; this following code is to maintain backward compatibility
 		// New projects should work with 3rd param as array
 		if (is_string($additional_data)) $additional_data = array('description' => $additional_data);
-		
+
 
 		//filter out any data passed that doesnt have a matching column in the groups table
 		//and merge the set group data and the additional data

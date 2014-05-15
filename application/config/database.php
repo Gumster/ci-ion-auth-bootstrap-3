@@ -49,9 +49,9 @@ $active_group = ENVIRONMENT == 'development' ? 'development' : 'production';
 $active_record = TRUE;
 
 $db['development']['hostname'] = 'localhost';
-$db['development']['username'] = '';
+$db['development']['username'] = 'root';
 $db['development']['password'] = '';
-$db['development']['database'] = '';
+$db['development']['database'] = 'qdas';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = '';
 $db['development']['pconnect'] = TRUE;

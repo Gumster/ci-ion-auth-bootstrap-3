@@ -1,4 +1,25 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+* Name:  Ion Auth
+*
+* Version: 2.5.2
+*
+* Author: Ben Edmunds
+*		  ben.edmunds@gmail.com
+*         @benedmunds
+*
+* Added Awesomeness: Phil Sturgeon
+*
+* Location: http://github.com/benedmunds/CodeIgniter-Ion-Auth
+*
+* Created:  10.01.2009
+*
+* Description:  Modified auth system based on redux_auth with extensive customization.  This is basically what Redux Auth 2 should be.
+* Original Author name has been kept but that does not mean that the method has not been modified.
+*
+* Requirements: PHP5 or above
+*
+*/
 
 /*
 | -------------------------------------------------------------------------
@@ -63,10 +84,10 @@ $config['join']['groups'] = 'group_id';
  | If you are using Bcrypt the Admin password field also needs to be changed in order login as admin:
  | $2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36
  |
- | Becareful how high you set max_rounds, I would do your own testing on how long it takes
+ | Be careful how high you set max_rounds, I would do your own testing on how long it takes
  | to encrypt with x rounds.
  */
-$config['hash_method']    = 'sha1';	// IMPORTANT: Make sure this is set to either sha1 or bcrypt
+$config['hash_method']    = 'bcrypt';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
 $config['default_rounds'] = 8;		// This does not apply if random_rounds is set to true
 $config['random_rounds']  = FALSE;
 $config['min_rounds']     = 5;
@@ -81,8 +102,8 @@ $config['max_rounds']     = 9;
  | The controller should check this function and act
  | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title']                 = "";       // Site Title, example.com
-$config['admin_email']                = "admin@localhost"; // Admin Email, admin@example.com
+$config['site_title']                 = "Example.com";       // Site Title, example.com
+$config['admin_email']                = "admin@example.com"; // Admin Email, admin@example.com
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'email';             // A database column which is used to login with
@@ -92,11 +113,12 @@ $config['email_activation']           = FALSE;               // Email Activation
 $config['manual_activation']          = FALSE;               // Manual Activation for registration
 $config['remember_users']             = TRUE;                // Allow users to be remembered and enable auto-login
 $config['user_expire']                = 86500;               // How long to remember the user (seconds). Set to zero for no expiration
-$config['user_extend_on_login']       = TRUE;                // Extend the users cookies everytime they auto-login
+$config['user_extend_on_login']       = FALSE;               // Extend the users cookies every time they auto-login
 $config['track_login_attempts']       = FALSE;               // Track the number of failed login attempts for each user or ip.
+$config['track_login_ip_address']     = TRUE;                // Track login attempts by IP Address, if FALSE will track based on identity. (Default: TRUE)
 $config['maximum_login_attempts']     = 3;                   // The maximum number of failed login attempts.
-$config['lockout_time']               = 600;                 // The number of miliseconds to lockout an account due to exceeded attempts
-$config['forgot_password_expiration'] = 0;                   // The number of miliseconds after which a forgot password request will expire. If set to 0, forgot password requests will not expire.
+$config['lockout_time']               = 600;                 // The number of seconds to lockout an account due to exceeded attempts
+$config['forgot_password_expiration'] = 0;                   // The number of milliseconds after which a forgot password request will expire. If set to 0, forgot password requests will not expire.
 
 
 /*
@@ -107,7 +129,7 @@ $config['forgot_password_expiration'] = 0;                   // The number of mi
  | 	  'file' = Use the default CI config or use from a config file
  | 	  array  = Manually set your email config settings
  */
-$config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
+$config['use_ci_email'] = FALSE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = array(
 	'mailtype' => 'html',
 );
@@ -149,14 +171,14 @@ $config['email_forgot_password_complete'] = 'new_password.tpl.php';
  | -------------------------------------------------------------------------
  | Salt options
  | -------------------------------------------------------------------------
- | salt_length Default: 10
+ | salt_length Default: 22
  |
  | store_salt: Should the salt be stored in the database?
  | This will change your password encryption algorithm,
  | default password, 'password', changes to
  | fbaa5e216d163a02ae630ab1a43372635dd374c0 with default salt.
  */
-$config['salt_length'] = 10;
+$config['salt_length'] = 22;
 $config['store_salt']  = FALSE;
 
 /*
@@ -164,6 +186,7 @@ $config['store_salt']  = FALSE;
  | Message Delimiters.
  | -------------------------------------------------------------------------
  */
+$config['delimiters_source']       = 'config'; 	// "config" = use the settings defined here, "form_validation" = use the settings defined in CI's form validation library
 $config['message_start_delimiter'] = '<p>'; 	// Message start delimiter
 $config['message_end_delimiter']   = '</p>'; 	// Message end delimiter
 $config['error_start_delimiter']   = '<p>';		// Error mesage start delimiter
